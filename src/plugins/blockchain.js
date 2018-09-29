@@ -103,6 +103,11 @@ module.exports = {
         return Exonum.keyPair()
       },
 
+      getFree(free) {
+        free = 1005001
+        return free
+      },
+      
       generateSeed() {
         return Exonum.randomUint64()
       },

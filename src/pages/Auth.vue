@@ -9,7 +9,13 @@
               <form @submit.prevent="register">
                 <div class="form-group">
                   <label class="control-label text-white">USP:</label>
-                  <input v-model="usp" type="text" class="form-control" placeholder="Enter client USP" maxlength="260">
+                  <select v-model="usp">
+                    <option v-for="usp_name in usp_names" :key="usp_name.value">
+                      {{ usp_name.text }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label class="control-label text-white">Client name:</label>
                   <input v-model="name" type="text" class="form-control" placeholder="Enter name" maxlength="260" required>
                 </div>
@@ -23,6 +29,20 @@
                   <input v-model="secretKey" type="text" class="form-control" placeholder="Enter secret key" required>
                 </div>
                 <button type="submit" class="btn btn-lg btn-block btn-warning">Log in</button>
+              </form>
+            </tab>
+            <tab title="Service" class="text-danger">
+              <form @submit.prevent="get_free_space">
+                <div class="form-group">
+                  <label class="control-label text-white">Free space: {{ free_space }}</label>
+                </div>
+                <button type="get_free_space" class="btn btn-lg btn-block btn-warning">Get free space</button>
+              </form>
+              <form @submit.prevent="clear_logs">
+                <div class="form-group">
+                  <label class="control-label text-white"/>
+                </div>
+                <button type="clear_logs" class="btn btn-lg btn-block btn-warning">Clear logs</button>
               </form>
             </tab>
           </tabs>
@@ -61,14 +81,32 @@
     data() {
       return {
         name: '',
-        usp: 'USP1',
+        usp: 'MTS',
         secretKey: '',
         keyPair: {},
         isModalVisible: false,
-        isSpinnerVisible: false
+        isSpinnerVisible: false,
+        free_space: 100500,
+        usp_names: [
+          { text: 'MTS', value: '1' },
+          { text: 'MegaFon', value: '2' },
+          { text: 'T-Mobile', value: '3' }
+        ]
       }
     },
     methods: {
+      get_free_space() {
+         var res = this.$blockchain.getFree(res)
+         console.log('get_free_space');
+         console.log(res);
+         return this.$notify('error', 'get_free_space: '+res)
+      },
+      
+      clear_logs() {
+          console.log('clear_logs');
+          return this.$notify('error', 'clear_logs')
+      },
+
       login() {
         if (!this.$validateHex(this.secretKey, 64)) {
           return this.$notify('error', 'Invalid secret key is passed')
