@@ -5,7 +5,16 @@
         <div class="col-md-6 col-md-offset-3">
           <h1 class="mt-5 mb-4 text-white">Authorization</h1>
           <tabs>
-            <tab :is-active="true" title="Register" class="text-danger">
+            <tab :is-active="true" title="Log in" class="text-danger">
+              <form @submit.prevent="login">
+                <div class="form-group">
+                  <label class="control-label text-white">Secret key:</label>
+                  <input v-model="secretKey" type="text" class="form-control" placeholder="Enter secret key" required>
+                </div>
+                <button type="submit" class="btn btn-lg btn-block btn-warning">Log in</button>
+              </form>
+            </tab>
+            <tab title="Register" class="text-danger">
               <form @submit.prevent="register">
                 <div class="form-group">
                   <label class="control-label text-white">USP:</label>
@@ -20,15 +29,6 @@
                   <input v-model="name" type="text" class="form-control" placeholder="Enter name" maxlength="260" required>
                 </div>
                 <button type="submit" class="btn btn-lg btn-block btn-warning">Register</button>
-              </form>
-            </tab>
-            <tab title="Log in" class="text-danger">
-              <form @submit.prevent="login">
-                <div class="form-group">
-                  <label class="control-label text-white">Secret key:</label>
-                  <input v-model="secretKey" type="text" class="form-control" placeholder="Enter secret key" required>
-                </div>
-                <button type="submit" class="btn btn-lg btn-block btn-warning">Log in</button>
               </form>
             </tab>
             <tab title="Service" class="text-danger">
@@ -89,8 +89,9 @@
         free_space: 100500,
         usp_names: [
           { text: 'MTS', value: '1' },
-          { text: 'MegaFon', value: '2' },
-          { text: 'T-Mobile', value: '3' }
+          { text: 'TURKCELL', value: '2' },
+          { text: 'Telefonica', value: '3' },
+          { text: 'TIM', value: '4' }
         ]
       }
     },
