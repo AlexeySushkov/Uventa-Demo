@@ -159,7 +159,8 @@
       proceed() {
         this.isModalVisible = false
 
-        this.$store.commit('login', this.keyPair, this.usp)
+        this.$store.commit('login', this.keyPair)
+        this.$store.commit('usp', this.usp)
 
         this.$nextTick(function() {
           this.$router.push({ name: 'user' })

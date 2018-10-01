@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card mt-5">
-            <div class="card-header">Client summary</div>
+            <div class="card-header"><strong>Client summary</strong></div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <div class="row">
@@ -22,32 +22,32 @@
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-3"><strong>Telco_Id (Public key):</strong></div>
+                  <div class="col-sm-3"><strong>Client_Id:</strong></div>
                   <div class="col-sm-9"><code>{{ keyPair.publicKey }}</code></div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-3"><strong>Never share the Secret key:</strong></div>
+                  <div class="col-sm-3"><strong>Secret key:</strong></div>
                   <div class="col-sm-9"><code>{{ keyPair.secretKey }}</code></div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-3"><strong>USD:</strong></div>
-                  <div class="col-sm-9">{{ balance * 2 }}</div>
+                  <div class="col-sm-4"><strong>Telco Tokens (TT):</strong></div>
+                  <div class="col-sm-3">{{ balance }}</div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-3"><strong>EUR:</strong></div>
-                  <div class="col-sm-9">{{ balance * 1.7 }}</div>
+                  <div class="col-sm-4 text-info"><strong>USD:</strong></div>
+                  <div class="col-sm-3 text-info">{{ balance * 2 }}</div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-3"><strong>Tokens:</strong></div>
-                  <div class="col-sm-9">{{ balance }}</div>
+                  <div class="col-sm-4 text-info"><strong>EUR:</strong></div>
+                  <div class="col-sm-3 text-info">{{ balance * 1.7 }}</div>
                 </div>
               </li>
             </ul>
@@ -68,11 +68,11 @@
                     <label :for="variant.id" class="form-check-label">{{ variant.amount }}</label>
                   </div>
                   <div class="row">
-                    <label class="col-sm-3"><strong>Tokens:</strong></label>
+                    <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
                     <div class="col-sm-3">{{ amountToAddUSD*2 }}</div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-warning">Add tokens</button>
+                <button type="submit" class="btn btn-warning">Add USD</button>
               </form>
             </div>
           </div>
@@ -82,22 +82,11 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card mt-5">
-            <div class="card-header"><strong>Transfer</strong></div>
+            <div class="card-header"><strong>Transfer USD</strong></div>
             <div class="card-body">
               <form @submit.prevent="transfer">
                 <div class="form-group">
-                  <label>USP:</label>
-                  <input v-model="receiver_usp" type="text" class="form-control" placeholder="Enter receiver USP" maxlength="260">
-                </div>
-                <div class="form-group">
-                  <select v-model="usp">
-                    <option v-for="usp_name in usp_names" :key="usp_name.value">
-                      {{ usp_name.text }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Receiver Telco_Id (Public key):</label>
+                  <label>Receiver Client_Id:</label>
                   <input v-model="receiver" type="text" class="form-control" required>
                 </div>
                 <div class="form-group">
@@ -106,11 +95,11 @@
                     <input v-model="amountToTransferUSD" type="number" class="form-control" placeholder="Enter amount" min="0" required>
                   </div>
                   <div class="row">
-                    <label class="col-sm-3"><strong>Tokens:</strong></label>
+                    <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
                     <div class="col-sm-3">{{ amountToTransferUSD*2 }}</div>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-warning">Transfer tokens</button>
+                <button type="submit" class="btn btn-warning">Transfer USD</button>
               </form>
             </div>
           </div>
@@ -145,7 +134,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <label>Receiver Telco_Id (Public key):</label>
+                  <label>Receiver Client_Id:</label>
                   <input v-model="receiverMusic" type="text" class="form-control" required>
                 </div>
                 
@@ -155,7 +144,7 @@
                     <input v-model="amountToTransferMusicUSD" type="number" class="form-control" placeholder="Enter amount" min="0" required>
                   </div>
                   <div class="row">
-                    <label class="col-sm-3"><strong>Tokens:</strong></label>
+                    <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
                     <div class="col-sm-3">{{ amountToTransferMusicUSD * 2 }}</div>
                   </div>
                 </div>
@@ -319,7 +308,7 @@
           this.isSpinnerVisible = false
           this.$notify('error', error.toString())
         }
-        this.$notify('success', 'Start download the track')
+        this.$notify('success', 'Transaction has been written into the blockchain. Start download the track')
         var link = document.createElement('a')
         link.setAttribute('href','https://drive.google.com/uc?authusr=0&id=1ORS6iGEi8OgoD0YR3NuKfM5oi7ThcB0T&export=download')
         link.setAttribute('download','download')
