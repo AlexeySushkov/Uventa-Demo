@@ -69,7 +69,7 @@
                   </div>
                   <div class="row">
                     <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
-                    <div class="col-sm-3">{{ amountToAddUSD*2 }}</div>
+                    <div class="col-sm-3">{{ amountToAddUSD/2 }}</div>
                   </div>
                 </div>
                 <button type="submit" class="btn btn-warning">Add USD</button>
@@ -96,7 +96,7 @@
                   </div>
                   <div class="row">
                     <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
-                    <div class="col-sm-3">{{ amountToTransferUSD*2 }}</div>
+                    <div class="col-sm-3">{{ amountToTransferUSD/2 }}</div>
                   </div>
                 </div>
                 <button type="submit" class="btn btn-warning">Transfer USD</button>
@@ -145,7 +145,7 @@
                   </div>
                   <div class="row">
                     <label class="col-sm-4"><strong>Telco Tokens (TT):</strong></label>
-                    <div class="col-sm-3">{{ amountToTransferMusicUSD * 2 }}</div>
+                    <div class="col-sm-3">{{ amountToTransferMusicUSD / 2 }}</div>
                   </div>
                 </div>
                 <button type="submit" class="btn btn-warning">Buy music</button>
@@ -242,7 +242,7 @@
 
         const seed = this.$blockchain.generateSeed()
         
-        this.amountToAdd = this.amountToAddUSD * 2
+        this.amountToAdd = this.amountToAddUSD/2
         
         try {
           await this.$blockchain.addFunds(this.keyPair, this.amountToAdd, seed)
@@ -269,7 +269,7 @@
         this.isSpinnerVisible = true
 
         const seed = this.$blockchain.generateSeed()
-        this.amountToTransfer = String(Number(this.amountToTransferUSD) * 2)
+        this.amountToTransfer = String(Number(this.amountToTransferUSD) / 2)
 
         try {
           await this.$blockchain.transfer(this.keyPair, this.receiver, this.amountToTransfer, seed)
@@ -292,11 +292,13 @@
         // https://drive.google.com/open?id=1y2Kt_IE4h55OGA7ywNl7LnETJqqyq6tH
         // Albatros
         //         drive.google.com/open?id=1hS3Pt8fn43ZQHpeB9RJg6lzkczlLMBJz
+        // Amazon
+        // https://s3.amazonaws.com/telcotoken/alizee_-_j%60en_ai_marre.mp3
         
 
         this.isSpinnerVisible = true
         const seed = this.$blockchain.generateSeed()
-        this.amountToTransferMusic = String(Number(this.amountToTransferMusicUSD) * 2)
+        this.amountToTransferMusic = String(Number(this.amountToTransferMusicUSD) / 2)
         try {
           await this.$blockchain.transfer(this.keyPair, this.receiverMusic, this.amountToTransferMusic, seed)
           const data = await this.$blockchain.getWallet(this.keyPair.publicKey)
@@ -310,7 +312,11 @@
         }
         this.$notify('success', 'Transaction has been written into the blockchain. Start download the track')
         var link = document.createElement('a')
-        link.setAttribute('href','https://drive.google.com/uc?authusr=0&id=1ORS6iGEi8OgoD0YR3NuKfM5oi7ThcB0T&export=download')
+        // link.setAttribute('href','https://drive.google.com/uc?authusr=0&id=1ORS6iGEi8OgoD0YR3NuKfM5oi7ThcB0T&export=download')
+        // link.setAttribute('href','https://s3.amazonaws.com/telcotoken/VNFM1.png')
+        // link.setAttribute('href','https://s3.amazonaws.com/telcotoken/interesting.bin')
+        link.setAttribute('href','https://s3.amazonaws.com/telcotoken/alizee.mp3')
+        
         link.setAttribute('download','download')
         onload=link.click()
       }
