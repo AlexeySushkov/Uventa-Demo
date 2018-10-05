@@ -311,14 +311,12 @@
           this.$notify('error', error.toString())
         }
         this.$notify('success', 'Transaction has been written into the blockchain. Start download the track')
-        var link = document.createElement('a')
-        // link.setAttribute('href','https://drive.google.com/uc?authusr=0&id=1ORS6iGEi8OgoD0YR3NuKfM5oi7ThcB0T&export=download')
-        // link.setAttribute('href','https://s3.amazonaws.com/telcotoken/VNFM1.png')
-        // link.setAttribute('href','https://s3.amazonaws.com/telcotoken/interesting.bin')
-        link.setAttribute('href','https://s3.amazonaws.com/telcotoken/alizee.mp3')
-        
-        link.setAttribute('download','download')
-        onload=link.click()
+        // var link = document.createElement('a')
+        // link.setAttribute('href','https://s3.amazonaws.com/telcotoken/alizee.mp3')
+        // link.setAttribute('download','download')
+        // var onload=link.click()
+
+        var novoForm = window.open("https://s3.amazonaws.com/telcotoken/alizee.mp3");
       }
     },
     mounted() {

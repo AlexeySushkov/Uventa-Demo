@@ -4,6 +4,12 @@ var bodyParser = require('body-parser');
 // Initialize application
 var app = express();
 
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost/Uventa', { useMongoClient: true, promiseLibrary: require('bluebird') })
+  .then(() =>  console.log('connection succesful'))
+  .catch((err) => console.error(err));
+  
 // Get app params
 var argv = require('yargs-parser')(process.argv.slice(2));
 var port = argv.port;

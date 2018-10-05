@@ -2,8 +2,31 @@ var express = require('express');
 var request = require('request');
 var router = express.Router();
 
+
+var mongoose = require('mongoose');
+var Usp = require('../models/usp.js');
+
+/* SAVE USP */
+router.post('/*usp*', function(req, res, next) {
+  console.log(req.body)
+  Usp.create(req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+/* GET ALL USP */
+router.get('/*usp*', function(req, res, next) {
+  console.log(req.body)
+  Usp.find(function (err, products) {
+    if (err) return next(err);
+    res.json(products);
+  });
+});
+
 router.get('/*', function(req, res, next) {
   var query = req.params[0];
+  console.log('ccc')
 
   request.get({
     url: req.app.get('apiRoot') + '/api/' + query,
@@ -21,6 +44,8 @@ router.get('/*', function(req, res, next) {
 });
 
 router.post('/*', function(req, res, next) {
+  console.log('ddd')
+
   var query = req.params[0];
 
   request.post({
