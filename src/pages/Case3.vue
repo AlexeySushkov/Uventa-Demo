@@ -53,8 +53,8 @@
   import Spinner from '../components/Spinner.vue'
 
   var usp_musics_var = [
-          { id: '1', text: 'TURKCELL', privateKey: '627446187b6717fe698789e8b6cd8ac776bc312140ec9d66c60de4706b5954005e0a032fb4347e7b56b2ad8649839040a42f4624882f5b1ffbb9b22010ed1fa5' },
-          { id: '2', text: 'Telefonica', privateKey: '95fbff58fa994fc10283e77ec546c1344abede5aed2b4f65e0fae1ee904d59f0687b556657f7d5a1c03e766cc37971d7135eb3363f8924982270476ac03a7206' },
+          { id: '1', text: 'TURKCELL', privateKey: 'ae4c090c51b0bd90f3c352bcf8fbfa2e552899190cd23c5563d11cc0584959c895b4adbb0de86f8e6bc3d1c63221b5681fa6d4794a282a978f619ac0291960a2' },
+          { id: '2', text: 'Telefonica', privateKey: '5dba7eeb5213c4b036311afff0bb4f818c1b2562998f910a055b7c531b2d8e8dc855c04957ed3dab66691a05398181d6b83884d011f833553f92cd8a142b8994' },
         ]
   var musics_TURKCELL_var = [
           { text: 'The Beatles - All You Need Is Love', id: '1', price: '1', path: 'https://s3.amazonaws.com/telcotoken/The+Beatles+-+All+You+Need+Is+Love.mp3' },
@@ -79,7 +79,7 @@
         balance: 0,
 
         usp_music_name: 'TURKCELL',
-        usp_music_privateKey: '627446187b6717fe698789e8b6cd8ac776bc312140ec9d66c60de4706b5954005e0a032fb4347e7b56b2ad8649839040a42f4624882f5b1ffbb9b22010ed1fa5',
+        usp_music_privateKey: '',
         music_track_price: 0,
         music_track_name: '0',
         music_track_path: '',
@@ -87,8 +87,8 @@
 
         isSpinnerVisible: false,
         usp_musics: [
-          { id: '1', text: 'TURKCELL', privateKey: '627446187b6717fe698789e8b6cd8ac776bc312140ec9d66c60de4706b5954005e0a032fb4347e7b56b2ad8649839040a42f4624882f5b1ffbb9b22010ed1fa5' },
-          { id: '2', text: 'Telefonica', privateKey: '95fbff58fa994fc10283e77ec546c1344abede5aed2b4f65e0fae1ee904d59f0687b556657f7d5a1c03e766cc37971d7135eb3363f8924982270476ac03a7206' },
+          { id: '1', text: 'TURKCELL', privateKey: 'ae4c090c51b0bd90f3c352bcf8fbfa2e552899190cd23c5563d11cc0584959c895b4adbb0de86f8e6bc3d1c63221b5681fa6d4794a282a978f619ac0291960a2' },
+          { id: '2', text: 'Telefonica', privateKey: '5dba7eeb5213c4b036311afff0bb4f818c1b2562998f910a055b7c531b2d8e8dc855c04957ed3dab66691a05398181d6b83884d011f833553f92cd8a142b8994' },
         ],
         
         musics_TURKCELL: [
