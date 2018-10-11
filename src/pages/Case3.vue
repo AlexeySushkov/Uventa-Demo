@@ -53,8 +53,8 @@
   import Spinner from '../components/Spinner.vue'
 
   var usp_musics_var = [
-          { id: '1', text: 'TURKCELL', privateKey: 'ae4c090c51b0bd90f3c352bcf8fbfa2e552899190cd23c5563d11cc0584959c895b4adbb0de86f8e6bc3d1c63221b5681fa6d4794a282a978f619ac0291960a2' },
-          { id: '2', text: 'Telefonica', privateKey: '5dba7eeb5213c4b036311afff0bb4f818c1b2562998f910a055b7c531b2d8e8dc855c04957ed3dab66691a05398181d6b83884d011f833553f92cd8a142b8994' },
+          { id: '1', text: 'TURKCELL', privateKey: '936a4c7f9bf2bf94ca1000735b7d900915d33a9835efb82bb937dd2c131ba8dea88033f45347107f4542615e1edca332c71187bd65c43084580e864dc040aa9c' },
+          { id: '2', text: 'Telefonica', privateKey: '2a4c6afff5b954e9c82f4c7b13d3bb12676539513f8f0d9d21696a268263ad9deb194dfcc165f1439502124325676bf827c1499a1d3a1be8869765f05f2cb79b' },
         ]
   var musics_TURKCELL_var = [
           { text: 'The Beatles - All You Need Is Love', id: '1', price: '1', path: 'https://s3.amazonaws.com/telcotoken/The+Beatles+-+All+You+Need+Is+Love.mp3' },
@@ -87,8 +87,8 @@
 
         isSpinnerVisible: false,
         usp_musics: [
-          { id: '1', text: 'TURKCELL', privateKey: 'ae4c090c51b0bd90f3c352bcf8fbfa2e552899190cd23c5563d11cc0584959c895b4adbb0de86f8e6bc3d1c63221b5681fa6d4794a282a978f619ac0291960a2' },
-          { id: '2', text: 'Telefonica', privateKey: '5dba7eeb5213c4b036311afff0bb4f818c1b2562998f910a055b7c531b2d8e8dc855c04957ed3dab66691a05398181d6b83884d011f833553f92cd8a142b8994' },
+          { id: '1', text: 'TURKCELL', privateKey: '936a4c7f9bf2bf94ca1000735b7d900915d33a9835efb82bb937dd2c131ba8dea88033f45347107f4542615e1edca332c71187bd65c43084580e864dc040aa9c' },
+          { id: '2', text: 'Telefonica', privateKey: '2a4c6afff5b954e9c82f4c7b13d3bb12676539513f8f0d9d21696a268263ad9deb194dfcc165f1439502124325676bf827c1499a1d3a1be8869765f05f2cb79b' },
         ],
         
         musics_TURKCELL: [
