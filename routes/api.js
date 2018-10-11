@@ -26,7 +26,7 @@ router.get('/*usp*', function(req, res, next) {
 
 router.get('/*', function(req, res, next) {
   var query = req.params[0];
-  console.log('ccc')
+  console.log(query)
 
   request.get({
     url: req.app.get('apiRoot') + '/api/' + query,
@@ -44,9 +44,8 @@ router.get('/*', function(req, res, next) {
 });
 
 router.post('/*', function(req, res, next) {
-  console.log('ddd')
-
   var query = req.params[0];
+  console.log(query)
 
   request.post({
       url: req.app.get('apiRoot') + '/api/' + query,

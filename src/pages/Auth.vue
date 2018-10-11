@@ -44,6 +44,14 @@
                 </div>
                 <button type="clear_logs" class="btn btn-lg btn-block btn-warning">Clear logs</button>
               </form>
+              <form @submit.prevent="put_unlim_tokens">
+                <div class="form-group">
+                  <label class="control-label text-white"/>
+                </div>
+                <input v-model="secretKey4Unlim" type="text" class="form-control" placeholder="Enter secret key" required>
+                <input v-model="UnlimTokensVolume" type="text" class="form-control" placeholder="Enter tokens amount" required>
+                <button type="put_unlim_tokens" class="btn btn-lg btn-block btn-warning">Put Tokens</button>
+              </form>
               <form @submit.prevent="usp_db_put">
                 <div class="form-group">
                   <label class="control-label text-white"/>
@@ -65,12 +73,12 @@
                     <div class="col-sm-4">USP</div>
                   </div>
                 </li>
-                <li v-for="(item) in usp_db_list" :key="item.secretKey" class="list-group-item">
+                <li v-for="(item) in usp_db_list" :key="item.publicKey" class="list-group-item">
                   <div class="row">
                     <!--div class="col-sm-4">
                       <router-link :to="{ name: 'item', params: { usp: item.usp } }">{{ item.usp }}</router-link>
                     </div-->
-                    <div class="col-sm-4"><code>{{ item.secretKey }}</code></div>
+                    <div class="col-sm-4"><code>{{ item.publicKey }}</code></div>
                     <div class="col-sm-4">{{ item.usp }}</div>
                   </div>
                 </li>
@@ -102,12 +110,7 @@
   import Modal from '../components/Modal.vue'
   import Spinner from '../components/Spinner.vue'
   import axios from 'axios'
-  const items = [
-    { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-    { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-    { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-    { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
- ]
+  
   module.exports = {
     components: {
       Tab,
@@ -132,11 +135,27 @@
         ],
         usp_db: {},
         usp_db_list: {},
-        items: items
+        secretKey4Unlim: '',
+        UnlimTokensVolume: 1000000,
+        keyPair4Unlim: {}
       }
     },
     methods: {
 
+      async put_unlim_tokens() {
+        
+        this.keyPair4Unlim.secretKey = this.secretKey4Unlim;
+        this.keyPair4Unlim.publicKey = this.secretKey4Unlim.substr(64);
+
+        const seed = this.$blockchain.generateSeed()
+        try {
+          await this.$blockchain.addFunds(this.keyPair4Unlim, this.UnlimTokensVolume, seed)
+          this.$notify('success', 'Add tokens transaction has been written into the blockchain')
+        } catch (error) {
+          this.$notify('error', error.toString())
+        }
+      },
+      
       usp_db_put() {
          console.log('usp_db_put')
          axios.post('/api/services/cryptocurrency/v1/usp', this.usp_db)
@@ -149,7 +168,7 @@
          })
       },
       
-      usp_db_get() {
+      usp_db_get_OLD() {
          console.log('usp_db_get')
          axios.get('/api/services/cryptocurrency/v1/usp')
          .then(response => {
@@ -161,6 +180,12 @@
            this.errors.push(e)
          })
       },
+      
+
+      async usp_db_get() {
+        this.usp_db_list = await this.$mongo.get_usp_all()
+      },
+
       
       get_free_space() {
          var res = this.$blockchain.getFree(res)
@@ -186,7 +211,7 @@
           secretKey: this.secretKey
         })
         this.$store.commit('usp', this.usp)
-
+        
         this.$nextTick(function() {
           this.$router.push({ name: 'user' })
         })
@@ -200,7 +225,7 @@
 
         this.isSpinnerVisible = true
         this.keyPair = this.$blockchain.generateKeyPair()
-
+        
         try {
           await this.$blockchain.createWallet(this.keyPair, this.name)
           this.name = ''
@@ -208,6 +233,13 @@
           this.isModalVisible = false
           this.$store.commit('login', this.keyPair)
           this.$store.commit('usp', this.usp)
+          
+          //this.usp_db.privateKey=this.keyPair.privateKey
+          //this.usp_db.usp=this.usp
+          //this.usp_db_put()
+          
+          this.$mongo.put_usp(this.keyPair.publicKey, this.usp)
+          
           this.$nextTick(function() {
           this.$router.push({ name: 'user' })
         })

@@ -5,6 +5,9 @@ import WalletPage from '../pages/Wallet.vue'
 import BlockchainPage from '../pages/Blockchain.vue'
 import BlockPage from '../pages/Block.vue'
 import TransactionPage from '../pages/Transaction.vue'
+import Case1 from '../pages/Case1.vue'
+import Case2 from '../pages/Case2.vue'
+import Case3 from '../pages/Case3.vue'
 
 Vue.use(Router)
 
@@ -16,9 +19,24 @@ export default new Router({
       component: AuthPage
     },
     {
+      path: '/case1',
+      name: 'case1',
+      component: Case1
+    },
+    {
+      path: '/case2',
+      name: 'case2',
+      component: Case2
+    },
+    {
+      path: '/case3',
+      name: 'case3',
+      component: Case3
+    },
+    {
       path: '/user',
       name: 'user',
-      component: WalletPage
+      component: Case1
     },
     {
       path: '/blockchain',
