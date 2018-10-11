@@ -50,7 +50,7 @@
                 </div>
                 <input v-model="secretKey4Unlim" type="text" class="form-control" placeholder="Enter secret key" required>
                 <input v-model="UnlimTokensVolume" type="text" class="form-control" placeholder="Enter tokens amount" required>
-                <button type="put_unlim_tokens" class="btn btn-lg btn-block btn-warning">Put Tokens</button>
+                <button type="put_unlim_tokens" class="btn btn-lg btn-block btn-warning">Add Tokens</button>
               </form>
               <form @submit.prevent="usp_db_put">
                 <div class="form-group">

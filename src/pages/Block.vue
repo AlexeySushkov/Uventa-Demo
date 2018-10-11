@@ -14,6 +14,69 @@
             </ol>
           </nav>
 
+          <div class="card">
+            <div class="card-header">Summary</div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Height:</strong></div>
+                  <div class="col-sm-9">{{ block.height }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Previous block hash:</strong></div>
+                  <div class="col-sm-9">{{ block.prev_hash }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Proposer ID:</strong></div>
+                  <div class="col-sm-9">{{ block.proposer_id }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Blockchain state hash:</strong></div>
+                  <div class="col-sm-9">{{ block.state_hash }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Transactions count:</strong></div>
+                  <div class="col-sm-9">{{ block.tx_count }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3"><strong>Hash of transactions tree:</strong></div>
+                  <div class="col-sm-9">{{ block.tx_hash }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-header">Precommits</div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item font-weight-bold">
+                <div class="row">
+                  <div class="col-sm-3">Validator</div>
+                  <div class="col-sm-3">Time</div>
+                  <div class="col-sm-6">Signature</div>
+                </div>
+              </li>
+              <li v-for="(precommit) in precommits" :key="precommit.body.validator" class="list-group-item">
+                <div class="row">
+                  <div class="col-sm-3">{{ precommit.body.validator }}</div>
+                  <!--div class="col-sm-3">{{ $moment($bigInt(precommit.body.time.secs).multiply(1000000000).plus(precommit.body.time.nanos) / 1000000).format() }}</div-->
+                  <div class="col-sm-3">{{ precommit.body.time.secs }}</div>
+                  <div class="col-sm-6">{{ precommit.signature }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
           <div class="card mt-5">
             <div class="card-header">Transactions</div>
             <ul class="list-group list-group-flush">
@@ -73,6 +136,7 @@
     data() {
       return {
         block: {},
+        precommits: [],
         transactions: [],
         isSpinnerVisible: false
       }
@@ -93,10 +157,10 @@
     methods: {
       async loadBlock() {
         this.isSpinnerVisible = true
-
         try {
           const data = await this.$blockchain.getBlock(this.height)
           this.block = data.block
+          this.precommits = data.precommits
           this.transactions = data.txs
           this.isSpinnerVisible = false
         } catch (error) {
