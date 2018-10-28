@@ -9,7 +9,9 @@ import Mongo from './plugins/mongo'
 import App from './App.vue'
 import store from './store'
 import VueUp from 'vueup'
+import Vue2Filters from 'vue2-filters'
 
+Vue.use(Vue2Filters)
 Vue.use(numeral)
 Vue.use(Validate)
 Vue.use(Notify)

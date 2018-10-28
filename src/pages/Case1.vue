@@ -36,19 +36,19 @@
               <li class="list-group-item">
                 <div class="row">
                   <div class="col-sm-6"><strong>Telco Tokens (TT):</strong></div>
-                  <div class="col-sm-3">{{ balance }}</div>
+                  <div class="col-sm-3">{{ balance | currency('') }}</div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
                   <div class="col-sm-6 text-info"><strong>USD (1TT = 0,1USD):</strong></div>
-                  <div class="col-sm-3 text-info">{{ balance / 10 }}</div>
+                  <div class="col-sm-3 text-info">{{ balance / 10 | currency('') }}</div>
                 </div>
               </li>
               <li class="list-group-item">
                 <div class="row">
                   <div class="col-sm-6 text-info"><strong>EUR (1TT = 0,87EUR):</strong></div>
-                  <div class="col-sm-3 text-info">{{ showEUR }}</div>
+                  <div class="col-sm-3 text-info">{{ showEUR | currency('') }}</div>
                 </div>
               </li>
             </ul>
@@ -72,7 +72,7 @@
                     <li class="list-group-item">
                       <div class="row">
                         <label class="col-sm-6"><strong>Telco Tokens (TT):</strong></label>
-                        <div class="col-sm-3">{{ amountToAddUSD*10 }}</div>
+                        <div class="col-sm-6">{{ amountToAddUSD*10 | currency('') }}</div>
                       </div>
                     </li>
                   </ul>

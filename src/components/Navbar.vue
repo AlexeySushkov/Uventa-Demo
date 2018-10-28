@@ -23,12 +23,12 @@
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link :to="{ name: 'blockchain' }" class="nav-link">Blockchain Explorer</router-link>
+            <router-link :to="{ name: 'blockchain' }" class="nav-link">[Blockchain Explorer]</router-link>
           </li>
         </ul>
         <ul v-if="isAuthorized" class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="#" class="nav-link" @click="logout">Logout</a>
+            <a href="#" class="nav-link" @click="logout">[Logout]</a>
           </li>
         </ul>
       </div>

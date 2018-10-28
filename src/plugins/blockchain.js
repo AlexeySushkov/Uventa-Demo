@@ -40,6 +40,7 @@ function TransferTransaction () {
       { name: 'from', type: Exonum.PublicKey },
       { name: 'to', type: Exonum.PublicKey },
       { name: 'amount', type: Exonum.Uint64 },
+//      { name: 'amount', type: Exonum.Float32 },
       { name: 'seed', type: Exonum.Uint64 }
     ]
   })
@@ -160,7 +161,7 @@ module.exports = {
         }
 
         // Sign transaction
-        const signature = transaction.sign(keyPair.secretKey, data)
+       const signature = transaction.sign(keyPair.secretKey, data)
 
         // Send transaction into blockchain
         return transaction.send(TRANSACTION_URL, TRANSACTION_EXPLORER_URL, data, signature)

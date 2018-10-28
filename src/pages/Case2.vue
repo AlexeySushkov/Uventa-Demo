@@ -17,14 +17,14 @@
                   <div class="form-group">
                     <label>Amount USD (1TT = 0,1USD)</label>
                     <div class="input-group">
-                      <input v-model="amountToTransferUSD" type="number" class="form-control" placeholder="Enter amount" min="0" required>
+                      <input v-model="amountToTransferUSD" type="text" class="form-control" placeholder="Enter amount" min="0" required>
                     </div>
                   </div>
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                       <div class="row">
                         <label class="col-sm-6"><strong>Telco Tokens (TT):</strong></label>
-                        <div class="col-sm-3">{{ amountToTransferUSD * 10 }}</div>
+                        <div class="col-sm-6">{{ amountToTransferUSD * 10 | currency('') }}</div>
                       </div>
                     </li>
                   </ul>
@@ -131,6 +131,7 @@
 
         const seed = this.$blockchain.generateSeed()
         this.amountToTransfer = String(Number(this.amountToTransferUSD) * 10)
+        this.amountToTransfer = String(2.34)
 
         try {
           await this.$blockchain.transfer(this.keyPair, this.receiver, this.amountToTransfer, seed)

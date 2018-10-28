@@ -23,9 +23,8 @@
             <ul class="list-unstyled text-white">
               <li>Uventa Platform: <a href="http://uventa.io/" target="_blank">uventa.io</a></li>
               <li>Contact: <a href="mailto:uventa.systems@gmail.com" target="_blank">uventa.systems@gmail.com</a></li>
+              <li><img src="images/Uventa - Logo v9.2.png" class="rounded float-left" alt=""></li>
             </ul>
-            <img src="images/Uventa - Logo v9.1.png" class="float-fluid" alt="">
-            <img src="images/Logo - v8.1.png" class="float-fluid" alt="">
           </div>
         </div>
       </div>

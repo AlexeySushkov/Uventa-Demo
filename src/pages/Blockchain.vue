@@ -32,6 +32,7 @@
               </li>
             </ul>
             <div class="card-body text-center">
+              <a href="#" class="btn btn-primary" @click.prevent="loadLast">Load last blocks</a>
               <a href="#" class="btn btn-primary" @click.prevent="loadMore">Load older blocks</a>
             </div>
           </div>
@@ -80,7 +81,18 @@
 
       loadMore() {
         this.loadBlocks(this.blocks[this.blocks.length - 1].height - 1)
+      },
+      
+      loadLast() {
+        this.blocks = [];
+        this.loadBlocks()
+      },
+      
+      skipChange(){
+        this.blocks = [];
+        this.loadBlocks();
       }
+
     },
     mounted() {
       this.$nextTick(function() {

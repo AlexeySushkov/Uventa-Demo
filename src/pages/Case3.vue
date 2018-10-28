@@ -13,12 +13,17 @@
               <form @submit.prevent="BuyMusic">
                 
                 <div class="form-group">
+                  <label class="col-sm-4"><strong>Service Provider:</strong></label>
                   <div v-for="usp_music in usp_musics" :key="usp_music.id" class="form-check form-check-inline">
                     <label class="form-check-label">
                       <input :id="usp_music.id" :value="usp_music.text" :checked="usp_music_name == usp_music.text" v-model="usp_music_name" class="form-check-input" type="radio">
                       {{ usp_music.text }}
                     </label>
                   </div>
+                  <div class="form-group">
+                    <input v-model="keyPair4Music.publicKey" type="text" class="form-control" placeholder="Enter Service Provider Id">
+                  </div>
+
                   <!--div class="form-group">
                     <label class="col-sm-4"><strong>USP:</strong> {{ usp_music_privateKey }} </label>
                   </div-->
@@ -165,9 +170,10 @@
         }
         
 //        document.write(this.music_track_name+'   '+this.music_track_price+'   '+this.music_track_path + '   ' + this.usp_music_privateKey)
+//        document.write(this.keyPair4Music.publicKey)
 
-        this.keyPair4Music.secretKey = this.usp_music_privateKey;
-        this.keyPair4Music.publicKey = this.usp_music_privateKey.substr(64);
+        //this.keyPair4Music.secretKey = this.usp_music_privateKey;
+        //this.keyPair4Music.publicKey = this.usp_music_privateKey.substr(64);
 
         this.isSpinnerVisible = true
         const seed = this.$blockchain.generateSeed()
