@@ -28,22 +28,46 @@
                   <label class="control-label text-white">Client name:</label>
                   <input v-model="name" type="text" class="form-control" placeholder="Enter name" maxlength="260" required>
                 </div>
+                <div class="form-group">
+                  <label class="control-label text-white">Client phone:</label>
+                  <input v-model="phone" type="text" class="form-control" placeholder="Enter phone number" maxlength="260">
+                </div>
                 <button type="submit" class="btn btn-lg btn-block btn-warning">Register</button>
               </form>
             </tab>
             <tab title="Service" class="text-danger">
-              <form @submit.prevent="get_free_space">
+              <form @submit.prevent="get_usps">
+                <label class="control-label text-white">First get TURKCELL and Telefonica USP:</label>
+                <button type="get_free_space" class="btn btn-lg btn-block btn-warning">Get</button>
+              </form>
+              <form @submit.prevent="create_usps">
+                <label class="control-label text-white">If empty create TURKCELL and Telefonica USP:</label>
+                <button type="get_free_space" class="btn btn-lg btn-block btn-warning">Create</button>
+                <div class="form-group">
+                  <label class="control-label text-white">TURKCELL publicKey: {{ keyPairTURKCELL.publicKey }}</label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label text-white">TURKCELL privateKey: {{ keyPairTURKCELL.secretKey }}</label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label text-white">Telefonica publicKey: {{ keyPairTelefonica.publicKey }}</label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label text-white">Telefonica privateKey: {{ keyPairTelefonica.secretKey }}</label>
+                </div>
+              </form>
+              <!--form @submit.prevent="get_free_space">
                 <div class="form-group">
                   <label class="control-label text-white">Free space: {{ free_space }}</label>
                 </div>
                 <button type="get_free_space" class="btn btn-lg btn-block btn-warning">Get free space</button>
-              </form>
-              <form @submit.prevent="clear_logs">
+              </form-->
+              <!--form @submit.prevent="clear_logs">
                 <div class="form-group">
                   <label class="control-label text-white"/>
                 </div>
                 <button type="clear_logs" class="btn btn-lg btn-block btn-warning">Clear logs</button>
-              </form>
+              </form-->
               <form @submit.prevent="put_unlim_tokens">
                 <div class="form-group">
                   <label class="control-label text-white"/>
@@ -52,21 +76,21 @@
                 <input v-model="UnlimTokensVolume" type="text" class="form-control" placeholder="Enter tokens amount" required>
                 <button type="put_unlim_tokens" class="btn btn-lg btn-block btn-warning">Add Tokens</button>
               </form>
-              <form @submit.prevent="usp_db_put">
+              <!--form @submit.prevent="usp_db_put">
                 <div class="form-group">
                   <label class="control-label text-white"/>
                 </div>
                 <input v-model="usp_db.secretKey" type="text" class="form-control" placeholder="Enter secret key" required>
                 <input v-model="usp_db.usp" type="text" class="form-control" placeholder="Enter usp" required>
                 <button type="usp_db_put" class="btn btn-lg btn-block btn-warning">Put usp</button>
-              </form>
-              <form @submit.prevent="usp_db_get">
+              </form-->
+              <!--form @submit.prevent="usp_db_get">
                 <div class="form-group">
                   <label class="control-label text-white"/>
                 </div>
                 <button type="usp_db_get" class="btn btn-lg btn-block btn-warning">Get usp</button>
-              </form>
-              <ul class="list-group list-group-item-primary list-group-flush">
+              </form-->
+              <!--ul class="list-group list-group-item-primary list-group-flush">
                 <li class="list-group-item font-weight-bold">
                   <div class="row">
                     <div class="col-sm-4">secretKey</div>
@@ -75,14 +99,11 @@
                 </li>
                 <li v-for="(item) in usp_db_list" :key="item.publicKey" class="list-group-item">
                   <div class="row">
-                    <!--div class="col-sm-4">
-                      <router-link :to="{ name: 'item', params: { usp: item.usp } }">{{ item.usp }}</router-link>
-                    </div-->
                     <div class="col-sm-4"><code>{{ item.publicKey }}</code></div>
                     <div class="col-sm-4">{{ item.usp }}</div>
                   </div>
                 </li>
-              </ul>
+              </ul-->
             </tab>
           </tabs>
         </div>
@@ -121,9 +142,12 @@
     data() {
       return {
         name: '',
+        phone: '',
         usp: 'MTS',
         secretKey: '',
         keyPair: {},
+        keyPairTURKCELL: {},
+        keyPairTelefonica: {},
         isModalVisible: false,
         isSpinnerVisible: false,
         free_space: 100500,
@@ -136,12 +160,13 @@
         usp_db: {},
         usp_db_list: {},
         secretKey4Unlim: '',
-        UnlimTokensVolume: 1000000,
+        UnlimTokensVolume: 999900,
         keyPair4Unlim: {}
       }
     },
     methods: {
-
+      
+      
       async put_unlim_tokens() {
         
         this.keyPair4Unlim.secretKey = this.secretKey4Unlim;
@@ -168,20 +193,6 @@
          })
       },
       
-      usp_db_get_OLD() {
-         console.log('usp_db_get')
-         axios.get('/api/services/cryptocurrency/v1/usp')
-         .then(response => {
-           this.$notify('success', 'usp_db_get - OK')
-           this.usp_db_list = response.data
-           })
-         .catch(e => {
-           this.$notify('error', 'usp_db_get - Error')
-           this.errors.push(e)
-         })
-      },
-      
-
       async usp_db_get() {
         this.usp_db_list = await this.$mongo.get_usp_all()
       },
@@ -239,6 +250,7 @@
           //this.usp_db_put()
           
           this.$mongo.put_usp(this.keyPair.publicKey, this.usp)
+          this.$mongo.put_phone(this.keyPair.publicKey, this.phone)
           
           this.$nextTick(function() {
           this.$router.push({ name: 'user' })
@@ -250,6 +262,62 @@
         }
       },
 
+      async get_usps() {
+
+          var usp_db_list = await this.$mongo.get_usp_all()
+          
+          for (var i=0, iLen=usp_db_list.length; i<iLen; i++) {
+           if (usp_db_list[i].usp == 'TURKCELL_USP')
+           {
+//              document.write(usp_db_list[i].usp)
+              this.keyPairTURKCELL = this.$blockchain.generateKeyPair()
+              this.keyPairTURKCELL.secretKey = "" 
+              this.keyPairTURKCELL.publicKey = usp_db_list[i].publicKey 
+           }
+           else
+           if (usp_db_list[i].usp == 'Telefonica_USP')
+           {
+//              document.write(usp_db_list[i].usp)
+              this.keyPairTelefonica = this.$blockchain.generateKeyPair()
+              this.keyPairTelefonica.secretKey = ""
+              this.keyPairTelefonica.publicKey = usp_db_list[i].publicKey 
+           }
+          }
+      },
+
+      async create_usps() {
+        
+        this.isSpinnerVisible = true
+        
+        // TURKCELL
+        this.keyPairTURKCELL = this.$blockchain.generateKeyPair()
+        try {
+          await this.$blockchain.createWallet(this.keyPairTURKCELL, "TURKCELL_USP")
+          this.isSpinnerVisible = false
+          this.isModalVisible = false
+          this.$mongo.put_usp(this.keyPairTURKCELL.publicKey, "TURKCELL_USP")
+          this.secretKey4Unlim = this.keyPairTURKCELL.secretKey
+          this.put_unlim_tokens();
+        } catch (error) {
+          this.isSpinnerVisible = false
+          this.$notify('error', error.toString())
+        }
+        
+        // Telefonica
+        this.keyPairTelefonica = this.$blockchain.generateKeyPair()
+        try {
+          await this.$blockchain.createWallet(this.keyPairTelefonica, "Telefonica_USP")
+          this.isSpinnerVisible = false
+          this.isModalVisible = false
+          this.$mongo.put_usp(this.keyPairTelefonica.publicKey, "Telefonica_USP")
+          this.secretKey4Unlim = this.keyPairTelefonica.secretKey
+          this.put_unlim_tokens();
+        } catch (error) {
+          this.isSpinnerVisible = false
+          this.$notify('error', error.toString())
+        }
+      },
+      
       closeModal() {
         this.isModalVisible = false
       },

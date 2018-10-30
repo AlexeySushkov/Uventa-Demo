@@ -20,9 +20,10 @@
                       {{ usp_music.text }}
                     </label>
                   </div>
-                  <div class="form-group">
+                  
+                  <!--div class="form-group">
                     <input v-model="keyPair4Music.publicKey" type="text" class="form-control" placeholder="Enter Service Provider Id">
-                  </div>
+                  </div-->
 
                   <!--div class="form-group">
                     <label class="col-sm-4"><strong>USP:</strong> {{ usp_music_privateKey }} </label>
@@ -174,6 +175,18 @@
 
         //this.keyPair4Music.secretKey = this.usp_music_privateKey;
         //this.keyPair4Music.publicKey = this.usp_music_privateKey.substr(64);
+        
+          var usp_db_list = await this.$mongo.get_usp_all()
+          
+          for (var i=0, iLen=usp_db_list.length; i<iLen; i++) {
+           if (this.usp_music_name == 'TURKCELL') {
+             if (usp_db_list[i].usp == 'TURKCELL_USP')
+              this.keyPair4Music.publicKey = usp_db_list[i].publicKey }
+           else
+           if (this.usp_music_name == 'Telefonica') {
+             if (usp_db_list[i].usp == 'Telefonica_USP')
+              this.keyPair4Music.publicKey = usp_db_list[i].publicKey }
+          }
 
         this.isSpinnerVisible = true
         const seed = this.$blockchain.generateSeed()

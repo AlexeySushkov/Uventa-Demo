@@ -8,12 +8,43 @@
         <div class="col-md-6">
           <div class="card mt-5">
             <div class="card-header"><strong>[Case2]</strong></div>
-            <div class="card-header"><strong>Transfer USD</strong></div>
+            <div class="card-header"><strong>Transfer USD by Client_Id</strong></div>
             <div class="card-body">
               <form @submit.prevent="transfer">
                 <div class="form-group">
                   <label>Receiver Client_Id:</label>
                   <input v-model="receiver" type="text" class="form-control" required>
+                  <div class="form-group">
+                    <label>Amount USD (1TT = 0,1USD)</label>
+                    <div class="input-group">
+                      <input v-model="amountToTransferUSD" type="text" class="form-control" placeholder="Enter amount" min="0" required>
+                    </div>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <div class="row">
+                        <label class="col-sm-6"><strong>Telco Tokens (TT):</strong></label>
+                        <div class="col-sm-6">{{ amountToTransferUSD * 10 | currency('') }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <button type="submit" class="btn btn-warning">Transfer USD</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mt-5">
+            <div class="card-header"><strong>Transfer USD by Phone Number</strong></div>
+            <div class="card-body">
+              <form @submit.prevent="transfer_phone">
+                <div class="form-group">
+                  <label>Receiver Phone Number:</label>
+                  <input v-model="receiver_phone" type="text" class="form-control" required>
                   <div class="form-group">
                     <label>Amount USD (1TT = 0,1USD)</label>
                     <div class="input-group">
@@ -60,6 +91,7 @@
         amountToAddUSD: 10,
         amountToAdd: 0,
         receiver: '',
+        receiver_phone: '',
         receiverMusic: '579f0a0a7e885e6eeeec0a3f3fe3c507f69e138a6594ed89955ab3ec3047d4d2',
         receiver_usp: 'MTS',
         track_name: '',
@@ -131,7 +163,42 @@
 
         const seed = this.$blockchain.generateSeed()
         this.amountToTransfer = String(Number(this.amountToTransferUSD) * 10)
-        this.amountToTransfer = String(2.34)
+
+        try {
+          await this.$blockchain.transfer(this.keyPair, this.receiver, this.amountToTransfer, seed)
+          const data = await this.$blockchain.getWallet(this.keyPair.publicKey)
+          this.balance = data.wallet.balance
+          this.transactions = data.transactions
+          this.isSpinnerVisible = false
+          this.$notify('success', 'Transfer transaction has been written into the blockchain')
+        } catch (error) {
+          this.isSpinnerVisible = false
+          this.$notify('error', error.toString())
+        }
+      },
+      
+      async transfer_phone() {
+// Проверку сделать !!!!
+//        if (!this.$validateHex(this.receiver)) {
+//          return this.$notify('error', 'Invalid public key is passed')
+//        }
+// Проверку сделать !!!!
+//        if (this.receiver_phone === this.keyPair.publicKey) {
+//          return this.$notify('error', 'Can not transfer tokens to yourself')
+//        }
+
+        this.isSpinnerVisible = true
+
+        const seed = this.$blockchain.generateSeed()
+        this.amountToTransfer = String(Number(this.amountToTransferUSD) * 10)
+
+        var phone_db_list = await this.$mongo.get_phone_all()
+          
+//        document.write("this.receiver_phone: " + this.receiver_phone)
+        for (var i=0, iLen=phone_db_list.length; i<iLen; i++) {
+         if (phone_db_list[i].phone == this.receiver_phone) this.receiver = phone_db_list[i].publicKey
+//         document.write(phone_db_list[i].publicKey + "   " + phone_db_list[i].phone)
+        }
 
         try {
           await this.$blockchain.transfer(this.keyPair, this.receiver, this.amountToTransfer, seed)

@@ -29,6 +29,12 @@
               </li>
               <li class="list-group-item">
                 <div class="row">
+                  <div class="col-sm-3"><strong>Phone:</strong></div>
+                  <div class="col-sm-9">{{ mongo_phone }}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
                   <div class="col-sm-3"><strong>Secret key:</strong></div>
                   <div class="col-sm-9"><code>{{ keyPair.secretKey }}</code></div>
                 </div>
@@ -47,7 +53,7 @@
               </li>
               <li class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-6 text-info"><strong>EUR (1TT = 0,87EUR):</strong></div>
+                  <div class="col-sm-6 text-info"><strong>EUR (1TT = 0,087EUR):</strong></div>
                   <div class="col-sm-3 text-info">{{ showEUR | currency('') }}</div>
                 </div>
               </li>
@@ -113,6 +119,7 @@
         isSpinnerVisible: false,
         transactions: [],
         mongo_usp: 'MTS',
+        mongo_phone: '',
         variants: [
           { id: 'ten', amount: 10 },
           { id: 'fifty', amount: 50 },
@@ -155,7 +162,7 @@
           const data = await this.$blockchain.getWallet(this.keyPair.publicKey)
           this.name = data.wallet.name
           this.balance = data.wallet.balance
-          this.showEUR = this.balance / 8.7
+          this.showEUR = this.balance * 0.087 // 1 USD = 0.87 EUR
           this.showEUR = this.showEUR.toFixed(2)
           this.transactions = data.transactions
           
@@ -163,6 +170,13 @@
           
           for (var i=0, iLen=usp_db_list.length; i<iLen; i++) {
            if (usp_db_list[i].publicKey == this.keyPair.publicKey) this.mongo_usp = usp_db_list[i].usp
+          }
+          
+          var phone_db_list = await this.$mongo.get_phone_all()
+
+          for (var i=0, iLen=phone_db_list.length; i<iLen; i++) {
+           if (phone_db_list[i].publicKey == this.keyPair.publicKey) this.mongo_phone = phone_db_list[i].phone
+           // document.write(phone_db_list[i].publicKey + "   " + phone_db_list[i].phone)
           }
           
           this.isSpinnerVisible = false

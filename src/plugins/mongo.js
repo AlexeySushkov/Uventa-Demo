@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const TRANSACTION_URL_USP = '/api/services/cryptocurrency/v1/usp'
+const TRANSACTION_URL_PHONE = '/api/services/cryptocurrency/v1/phone'
 
 module.exports = {
   install(Vue) {
@@ -62,8 +63,28 @@ module.exports = {
          })
 
          return usp_db_list;
-      } // get_usp
+      }, // get_usp2
       
+        put_phone(publicKey, phone) {
+        //console.log('put_phone:'+'   '+publicKey+'   '+phone)
+        
+        const phone_data = {
+          publicKey,
+          phone
+        }
+  
+         axios.post(TRANSACTION_URL_PHONE, phone_data)
+         .then(response => {
+           // console.log('put_phone: success')
+         })
+         .catch(e => {
+           // console.log('put_phone: error')
+         })
+      }, // put_phone
+      
+      get_phone_all(){
+        return axios.get(TRANSACTION_URL_PHONE).then(response => response.data)
+      }
     }
   }
 }
